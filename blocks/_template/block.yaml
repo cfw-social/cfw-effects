@@ -1,0 +1,23 @@
+# Proposed template. This schema is not finalized, and CI does not validate it yet.
+id: c-your-block
+kind: component  # component | step | effect
+variation: default
+label: Short name
+summary: One sentence on what this block does.
+
+inputs:
+  - id: source
+    type: video  # text | json | image | video | audio
+    required: true
+    cardinality: one  # one | many
+    description: The input this block reads.
+
+outputs:
+  - id: result
+    type: video
+    cardinality: one
+    description: The artifact this block produces.
+
+needs:
+  tools: []
+  providers: []
