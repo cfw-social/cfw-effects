@@ -1,0 +1,28 @@
+# Proposed template. This schema is not finalized, and CI does not validate it yet.
+id: p-your-recipe
+label: Short marketplace name
+summary: One sentence on what this recipe produces.
+
+blocks:
+  - id: c-your-block
+    variation: default
+
+# Inputs should be the union of the listed blocks' required inputs,
+# plus any optional recipe-level settings.
+inputs:
+  - id: source
+    type: video
+    required: true
+    cardinality: one
+    description: The input the first block needs.
+  - id: mode
+    type: text
+    required: false
+    cardinality: one
+    description: An optional recipe-level setting.
+
+output:
+  kind: video
+  aspect: "9:16"
+  cardinality: one  # one | many
+  description: The final deliverable.
