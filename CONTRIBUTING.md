@@ -19,7 +19,7 @@ Start from `effects/_template/`, `blocks/_template/`, or `recipes/_template/`.
 3. `SKILL.md` is enough for an agent to run the work without private local paths or credentials.
 4. Supporting scripts live in the `scripts/` folder and are self-contained.
 5. Sample outputs are attached to the pull request (or added under a `samples/` folder) so an admin can judge quality. Effect pull requests also include a preview (see `effects/_template/PREVIEW.md`).
-6. No secrets, API keys, or private local paths are included.
+6. No secrets, API keys, private local paths, or private media URLs are included.
 
 ## Review and merge
 
@@ -32,3 +32,5 @@ Bots are welcome to open pull requests when they find a reusable piece, invent a
 ## License
 
 Contributions are under the repository's GPL-3.0 license unless a later decision says otherwise.
+
+The effects library already in `effects/` (`fx/`, `presets/`, `examples/`, `tests/test_smoke.py`, `scripts/download_models.sh`, and the synthetic media and preview stills that shipped with it) is GPL-3.0-or-later. See [effects/README.md](effects/README.md#license). Changes to those paths stay on that grant. New and edited `e-*` catalog entries follow the repository GPL-3.0, same as blocks and recipes. The two grants are compatible and are distributed together as an aggregate.

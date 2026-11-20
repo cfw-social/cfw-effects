@@ -156,7 +156,7 @@ These tables are proposed, not built. Prefer adapting today's `recipe_library_*`
 
 ## Open questions
 
-- Where do today's existing effect implementations actually live, so they can be copied into `effects/`? There was no `cfw-effects` repository in the `cfw-social` org when this design was written, and this repo's original README contained only `# cfw-effects`. New effects belong in `effects/`.
+- Where do today's existing effect implementations actually live, so they can be copied into `effects/`? There was no `cfw-effects` repository in the `cfw-social` org when this design was written, and this repo's original README contained only `# cfw-effects`. New effects belong in `effects/`. The subject-aware library is now checked in there as the `fx` package, with one `e-*` entry per effect (see `effects/README.md`). Sync, Marketplace listing, and Reviews tagging are still proposed.
 - Reuse today's `recipe_library_*` tables, or add new `studio_*` tables?
 - How should a variable list of outputs (N shorts) be declared in the recipe contract?
 - Who may merge (org admins only, or a named reviewer team)?

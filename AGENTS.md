@@ -1,6 +1,6 @@
 # Agent instructions
 
-This repository holds the **proposed** design for CFW Studio, plus empty scaffolds for effects, blocks, and recipes. Almost none of the runtime described in the docs is built yet.
+This repository holds the **proposed** design for CFW Studio, scaffolds for blocks and recipes, and a checked-in subject-aware effects library under `effects/` (Python package `fx`, one `e-*` catalog entry per effect). The runtime described in the docs (CI, merge-to-snapshot sync, Marketplace listing, Reviews tagging) is not built yet.
 
 ## Start here
 

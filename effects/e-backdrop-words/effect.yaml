@@ -1,0 +1,39 @@
+# Catalog entry for CFW Studio (repository GPL-3.0).
+# Implementation: fx effect "backdrop_words" in the effects library (GPL-3.0-or-later).
+# See ../README.md (License).
+id: e-backdrop-words
+kind: effect
+variation: default
+fx_name: backdrop_words
+label: "Backdrop words"
+summary: "Giant words behind the subject, with a punch-in, a short settle, and a timed word list."
+
+inputs:
+  - id: clip
+    type: video
+    required: true
+    cardinality: one
+    description: Vertical video this effect is applied to. Optional --start and --end (seconds) limit the window; other frames pass through and audio is kept.
+  - id: params
+    type: json
+    required: false
+    cardinality: one
+    description: Optional effect parameters. Defaults and the sample params are in SKILL.md.
+  - id: palette
+    type: text
+    required: false
+    cardinality: one
+    description: Preset name (neutral-mono or vasanth-personal), a path to palette JSON, or inline palette JSON.
+
+outputs:
+  - id: treated_clip
+    type: video
+    cardinality: one
+    description: The clip with this effect applied.
+
+needs:
+  tools:
+    - python3
+    - ffmpeg
+    - ffprobe
+  providers: []

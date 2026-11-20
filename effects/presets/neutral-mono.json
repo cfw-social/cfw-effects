@@ -1,0 +1,7 @@
+{
+  "name": "neutral-mono",
+  "description": "Brand-free example: charcoal / white / electric blue / coral.",
+  "swatches": {"charcoal": "#16181D", "white": "#FFFFFF", "blue": "#2F7BFF", "coral": "#FF5A5F", "sky": "#9EC5FF"},
+  "roles": {"bg": "charcoal", "outline": "charcoal", "text": "white", "paper": "white",
+            "accent": "blue", "punch": "blue", "glow": "sky", "secondary": "sky", "note": "sky", "hot": "coral", "split": "coral"}
+}

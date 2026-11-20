@@ -1,0 +1,8 @@
+{
+  "name": "vasanth-personal",
+  "description": "Example preset: navy / periwinkle / off-white / amber / red-orange.",
+  "swatches": {"navy": "#0C1842", "periwinkle": "#6962EE", "offwhite": "#FDFDFC", "amber": "#FDA107", "redorange": "#F44C2D"},
+  "roles": {"bg": "navy", "outline": "navy", "text": "offwhite", "paper": "offwhite",
+            "accent": "amber", "punch": "amber", "glow": "amber",
+            "secondary": "periwinkle", "note": "periwinkle", "hot": "redorange", "split": "redorange"}
+}
