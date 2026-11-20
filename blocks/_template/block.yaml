@@ -1,6 +1,6 @@
 # Proposed template. This schema is not finalized, and CI does not validate it yet.
 id: c-your-block
-kind: component  # component | step | effect
+kind: component  # component | step  (effects live in effects/ with kind: effect)
 variation: default
 label: Short name
 summary: One sentence on what this block does.

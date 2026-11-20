@@ -30,7 +30,7 @@ Worth keeping: a light fingerprint on each block and recipe (today's content has
 
 ## Proposed steps
 
-1. **Fill the public repo.** Contribution docs, templates, and later CI already start here. Copy existing `c-*` components and recipes from the canonical harness source into `blocks/` and `recipes/`. Fold effects in as `kind: effect` once we confirm where that source lives (no `cfw-effects` repo was in the org when this was written).
+1. **Fill the public repo.** Contribution docs, templates, and later CI already start here. Copy existing `c-*` components and recipes from the canonical harness source into `blocks/` and `recipes/`. Copy effects into `effects/` as `kind: effect` once we confirm where that source lives (no `cfw-effects` repo was in the org when this was written).
 2. **Snapshot what is already published.** Import today's library versions into the snapshot tables, keeping their existing content hashes as fingerprints and recording the source commit when known.
 3. **Ship the sync endpoint and Action.** One merge-to-snapshot path, authenticated with GitHub OIDC or a signed webhook. Prove it with an existing recipe before opening the repo to outside pull requests.
 4. **Point the app at snapshots.** Marketplace and `list_recipes` read the database flag. Start-asks read snapshots instead of the VENDORED map. Add Reviews tagging on new posts.

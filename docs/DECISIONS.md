@@ -44,6 +44,12 @@ Dated from the CFW Studio design discussion on **19 November 2026** (America/Chi
 
 **Why.** One library is easier to contribute to than a split between “recipes” and “effects.” Effects are reusable instructions plus scripts, which is already the block shape. Note: when this decision was recorded, no `cfw-effects` repository was present in the `cfw-social` org, and this repo's initial README contained only `# cfw-effects`. The source of today's effects still has to be located before they can be folded in.
 
+## 2026-11-19 — Effects live in a top-level `effects/` folder
+
+**Decision.** Effects still have `kind: effect` and are referenced from recipes like any other block, but they live in a top-level `effects/` folder (proposed id prefix `e-*`), not mixed into `blocks/`. Each effect includes a preview of the look or sound.
+
+**Why.** A dedicated folder makes the library of transitions, confetti, fireworks, caption styles, overlays, sound effects, and music beds easy to browse and contribute to, without changing the runtime model. The earlier decision stands: there is not a separate effects repository, and an effect is still a block.
+
 ## 2026-11-19 — The repository is named `cfw-studio`
 
 **Decision.** The public repo is `cfw-social/cfw-studio`, not `cfw-recipes`, `cfw-blocks`, `cfw-cookbook`, or `cfw-studio-kit`. Inside the repo and in the product, keep saying **blocks** and **recipes**, because that is the wording customers already see in the Marketplace.

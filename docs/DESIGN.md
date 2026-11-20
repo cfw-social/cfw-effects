@@ -6,11 +6,13 @@ As of 19 November 2026 (America/Chicago), this public repository exists as a des
 
 ## The idea
 
-Building blocks (`c-*`) are reusable Lego pieces: instructions plus supporting scripts, each with declared inputs and outputs. Effects fold in as one kind of block. Multiple variations of a block may coexist.
+Building blocks (`c-*`) are reusable Lego pieces: instructions plus supporting scripts, each with declared inputs and outputs. Multiple variations of a block may coexist.
 
-Recipes are guiding documents that compose those blocks. A recipe's inputs are the union of its blocks' required inputs, and the recipe declares the final output. Any agent can read a recipe and run it as-is, or compose a new one and submit it.
+Effects live in the top-level `effects/` folder. An effect is a block of `kind: effect` — the same contract as any other block — for a visual or audio treatment such as a transition, confetti, fireworks, a caption style, an overlay, a sound effect, or a music bed. Proposed effect ids use the `e-*` prefix. A recipe references an effect the same way it references any other block: by id and variation, in its `blocks` list.
 
-The source of truth is this public GitHub repository, not Postgres and not a deploy. People and bots contribute through pull requests. An admin approves by reviewing sample outputs and merging. On merge, one CFW endpoint snapshots the changed blocks and recipes into Postgres as immutable, fingerprinted copies with the commit SHA. The Marketplace reads those tables. Bots run from the snapshot so every server renders the same files. Posts that reach Reviews are tagged with the recipe and block fingerprints, which supports usage tracking and retirement. There is no heavy semver: only a light fingerprint and a variation id.
+Recipes are guiding documents that compose those blocks and effects. A recipe's inputs are the union of its blocks' required inputs, and the recipe declares the final output. Any agent can read a recipe and run it as-is, or compose a new one and submit it.
+
+The source of truth is this public GitHub repository, not Postgres and not a deploy. People and bots contribute through pull requests. An admin approves by reviewing sample outputs and merging. On merge, one CFW endpoint snapshots the changed effects, blocks, and recipes into Postgres as immutable, fingerprinted copies with the commit SHA. The Marketplace reads those tables. Bots run from the snapshot so every server renders the same files. Posts that reach Reviews are tagged with the recipe, block, and effect fingerprints, which supports usage tracking and retirement. There is no heavy semver: only a light fingerprint and a variation id.
 
 This is intended to replace today's master-key `publish.mjs` path, the VENDORED manifest map in code, the code-based Marketplace allowlist, and the separate `skills` table as the catalog bots see.
 
@@ -26,8 +28,8 @@ A block lives in `blocks/c-<name>/` and contains:
 
 | Field | Role |
 | --- | --- |
-| `id` | Stable slug, for example `c-transcribe`. Always `c-*`. |
-| `kind` | `component`, `step`, or `effect`. Effects are `kind: effect`. |
+| `id` | Stable slug, for example `c-transcribe`. Blocks in `blocks/` use `c-*`. |
+| `kind` | `component` or `step` for folders in `blocks/`. Effects use `kind: effect` and live under `effects/`. |
 | `variation` | Light variation id (for example `default` or `karaoke-glow`). Not semver. A new variation is a sibling, not a replacement, until the old one is retired. |
 | `label`, `summary` | Human-readable name and one-line description. |
 | `inputs[]` | `id`, `type` (`text`, `json`, `image`, `video`, `audio`), `required`, `cardinality` (`one` or `many`), and a short description. |
@@ -35,6 +37,17 @@ A block lives in `blocks/c-<name>/` and contains:
 | `needs` | Optional tools, OS, or providers the block requires. |
 
 The **fingerprint** is computed at sync time: a hash of the contract plus the instruction and script files. It is stored in CFW, not authored by hand.
+
+## Effects
+
+An effect lives in `effects/e-<name>/` and contains:
+
+- `effect.yaml` — the manifest (same field shape as `block.yaml`, with `kind: effect`)
+- `SKILL.md` — the instructions an agent follows to apply the effect
+- `scripts/` — supporting scripts the instructions call
+- a preview file (gif, video, still, or audio) so reviewers can judge the look or sound
+
+Effects are not a separate product type at runtime. They are blocks that recipes reference. They get their own folder so the library of looks and sounds is easy to browse and contribute to. Start from `effects/_template/`.
 
 ## Recipes
 
@@ -48,7 +61,7 @@ A recipe lives in `recipes/p-<name>/` and contains:
 | Field | Role |
 | --- | --- |
 | `id` / `label` | Stable slug such as `p-reels-clipper`, plus a marketplace name. |
-| `blocks[]` | Ordered list of block ids and variation ids. This is the Lego list. |
+| `blocks[]` | Ordered list of block or effect ids and variation ids. This is the Lego list. Effects are included here; there is no separate effects array. |
 | `inputs` | Union of the required inputs of those blocks, plus any recipe-level optional settings. An agent can read this and know what to ask for. |
 | `output` | The final deliverable: kind, aspect, cardinality (`one` or `many`), and a short description. |
 
@@ -81,13 +94,21 @@ cfw-studio/
     DESIGN.md
     DECISIONS.md
     MIGRATION.md
+  effects/
+    README.md
+    _template/
+      effect.yaml
+      SKILL.md
+      scripts/
+      PREVIEW.md
+    e-*/                 # one folder per effect (kind: effect)
   blocks/
     README.md
     _template/
       block.yaml
       SKILL.md
       scripts/
-    c-*/                 # one folder per block, including effects
+    c-*/                 # one folder per building block
   recipes/
     README.md
     _template/
@@ -97,13 +118,13 @@ cfw-studio/
   .github/workflows/     # proposed CI; not written yet
 ```
 
-Proposed CI, once added, should validate input and output declarations and run or attach a sample. This repository does not yet include that workflow (no application code is being added with this design).
+Proposed CI, once added, should validate input and output declarations and run or attach a sample (and, for effects, a preview). This repository does not yet include that workflow (no application code is being added with this design).
 
 ## Contribute, approve, and sync
 
 ```mermaid
 flowchart TD
-  A[Human or bot authors a recipe or block] --> B[Open a pull request]
+  A[Human or bot authors a recipe, block, or effect] --> B[Open a pull request]
   B --> C[CI validates inputs, outputs, and a sample]
   C --> D[Admin reviews sample outputs]
   D -->|approve| E[Merge to main]
@@ -113,14 +134,14 @@ flowchart TD
   G --> H[Immutable Postgres snapshots with fingerprints and commit SHA]
   H --> I[Marketplace reads the database]
   I --> J[Bots run from the snapshot, not live GitHub]
-  J --> K[Reviews posts are tagged with recipe and block fingerprints]
+  J --> K[Reviews posts are tagged with recipe, block, and effect fingerprints]
 ```
 
 - **Approval.** The merge is the approval. Admins review sample outputs attached to the PR, not a deploy and not a code allowlist.
-- **Proposed sync endpoint.** `POST /api/v1/admin/studio/sync`, called only after a merge to `main`. The body includes the commit SHA, an optional PR number, and the changed block and recipe paths. CFW fetches that commit, hashes files, and upserts immutable snapshot rows. The same commit SHA is a no-op. Bots never run from live GitHub.
+- **Proposed sync endpoint.** `POST /api/v1/admin/studio/sync`, called only after a merge to `main`. The body includes the commit SHA, an optional PR number, and the changed effect, block, and recipe paths. CFW fetches that commit, hashes files, and upserts immutable snapshot rows. The same commit SHA is a no-op. Bots never run from live GitHub.
 - **Auth (preferred).** GitHub Actions OIDC. The Action requests a token for the CFW audience. CFW verifies the issuer, the repository (`cfw-social/cfw-studio`), and that the ref is `main` after a merge. No long-lived token is stored in the repo.
 - **Auth (fallback).** A signed GitHub webhook or GitHub App, with the shared secret held only in Actions and in CFW, never committed.
-- **What bots do.** Learn from the repo, run or adapt published snapshots, and open PRs for new blocks or recipes. They do not upload snapshots directly into Postgres.
+- **What bots do.** Learn from the repo, run or adapt published snapshots, and open PRs for new effects, blocks, or recipes. They do not upload snapshots directly into Postgres.
 
 ## Proposed snapshots and post tags
 
@@ -128,14 +149,14 @@ These tables are proposed, not built. Prefer adapting today's `recipe_library_*`
 
 | Proposed table | What it stores | Notes |
 | --- | --- | --- |
-| Studio snapshots (or reused `recipe_library_*`) | One immutable row per block or recipe fingerprint: slug, variation id, fingerprint, commit SHA, declared inputs and outputs, kind, file tree hashes, and status (`listed`, `unlisted`, or `retired`) | A merge inserts new fingerprints. Old rows are never rewritten. Retiring sets status; the bytes stay so old posts still resolve. |
+| Studio snapshots (or reused `recipe_library_*`) | One immutable row per effect, block, or recipe fingerprint: slug, variation id, fingerprint, commit SHA, declared inputs and outputs, kind, file tree hashes, and status (`listed`, `unlisted`, or `retired`) | A merge inserts new fingerprints. Old rows are never rewritten. Retiring sets status; the bytes stay so old posts still resolve. |
 | Marketplace flag | A listed (or approved) flag on the recipe snapshot, set when the PR is merged | Replaces the code-based Marketplace allowlist and the `skills` table as the catalog `list_recipes` and the Marketplace read. |
-| Review post tags | For every post that reaches Reviews: post id, recipe fingerprint, ordered block fingerprints, and commit SHA | Enables usage counts and retirement of unused blocks or recipes. Nothing tags posts this way today. |
+| Review post tags | For every post that reaches Reviews: post id, recipe fingerprint, ordered block and effect fingerprints, and commit SHA | Enables usage counts and retirement of unused recipes, blocks, or effects. Nothing tags posts this way today. |
 | Sync audit | Commit SHA, PR number, synced-at, and the fingerprints written | Makes the webhook or Action idempotent and debuggable. |
 
 ## Open questions
 
-- Where do today's effects actually live? There was no `cfw-effects` repository in the `cfw-social` org when this design was written, and this repo's original README contained only `# cfw-effects`.
+- Where do today's existing effect implementations actually live, so they can be copied into `effects/`? There was no `cfw-effects` repository in the `cfw-social` org when this design was written, and this repo's original README contained only `# cfw-effects`. New effects belong in `effects/`.
 - Reuse today's `recipe_library_*` tables, or add new `studio_*` tables?
 - How should a variable list of outputs (N shorts) be declared in the recipe contract?
 - Who may merge (org admins only, or a named reviewer team)?

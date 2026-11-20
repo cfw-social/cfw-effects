@@ -1,0 +1,28 @@
+# Proposed template. This schema is not finalized, and CI does not validate it yet.
+# An effect is a block of kind "effect". Recipes reference it by id and variation.
+id: e-your-effect
+kind: effect
+variation: default
+label: Short name
+summary: One sentence on the look or sound this effect applies.
+
+# Typical kinds of effect: transition, confetti, fireworks, caption-style,
+# overlay, sfx, music-bed. Record the type in the summary or label; a
+# dedicated "type" field may be added once the format is settled.
+
+inputs:
+  - id: clip
+    type: video  # text | json | image | video | audio
+    required: true
+    cardinality: one  # one | many
+    description: The media this effect is applied to.
+
+outputs:
+  - id: treated_clip
+    type: video
+    cardinality: one
+    description: The same media with this effect applied.
+
+needs:
+  tools: []
+  providers: []
