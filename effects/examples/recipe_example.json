@@ -1,0 +1,17 @@
+{
+  "out": "out/fx_demo.mp4",
+  "size": [1080, 1920], "fps": 30,
+  "palette": "neutral-mono",
+  "seg": {"backend": "ensemble"},
+  "segments": [
+    {"src": "footage/clip_a.mp4", "in": 0.0, "dur": 3.5, "center": [0.5, 0.55], "zoom": [1.1, 1.2],
+     "redact_src": [[0, 0, 1, 0.15]],
+     "effects": [{"name": "vertigo", "params": {"amount": 0.35}},
+                 {"name": "label", "params": {"text": "VERTIGO", "index": 1}}]},
+    {"src": "footage/clip_b.mp4", "in": 2.0, "dur": 3.5,
+     "effects": [{"name": "backdrop_words", "params": {"words": [{"text": "FOCUS", "at": 0.1}, {"text": "REPEAT", "at": 1.8, "color": "secondary"}]}},
+                 {"name": "glass_card", "start": 1.0, "params": {"title": "One tip", "body": "Short, readable, one idea per card."}}]}
+  ],
+  "audio": {"music": "audio/bed.mp3", "music_gain_db": -3,
+            "sfx_each_segment": {"path": "audio/whoosh.mp3", "offset": -0.1, "gain_db": -10}}
+}

@@ -1,0 +1,9 @@
+# Local environments. Effect models, mask caches, and stray media are ignored
+# under effects/ (see effects/.gitignore).
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+build/
+dist/

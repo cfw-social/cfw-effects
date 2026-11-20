@@ -1,0 +1,40 @@
+# effects-lib ignore rules. Local models, caches, and media stay out of git.
+# The exceptions below are the only media this library commits: the procedural
+# clip, the synthetic samples, and the two blurred preview stills.
+# environments / caches
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+
+# heavy or private artefacts (never commit): mask cache, models, renders, any media
+cache/
+models/*.onnx
+models/*.tflite
+renders/
+out/
+*.mp4
+*.mov
+*.MOV
+*.m4v
+*.webm
+*.wav
+*.mp3
+*.m4a
+*.jpg
+*.jpeg
+*.png
+*.heic
+*.HEIC
+!docs/img/*.svg
+!docs/preview/*.jpg
+# local recipes that point at personal footage
+local/
+*.local.json
+
+# the only media allowed in the repo: procedural synthetic clip + samples rendered from it
+!examples/assets/synthetic_mannequin.mp4
+!examples/samples/*.mp4

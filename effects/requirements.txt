@@ -1,0 +1,5 @@
+numpy>=1.26          # BSD-3-Clause
+pillow>=10           # MIT-CMU (HPND)
+opencv-contrib-python-headless>=4.9   # Apache-2.0 (contrib needed for ximgproc guided filter)
+mediapipe>=0.10      # Apache-2.0
+onnxruntime>=1.17    # MIT

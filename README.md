@@ -18,7 +18,7 @@ People and bots are both welcome. A bot that finds a reusable piece, or composes
 
 ## What's here today, and what isn't
 
-**Now (this repository):** the design, contribution guides, and empty scaffolds for `effects/`, `blocks/`, and `recipes/`. You can read the docs and start a pull request from a template. That is what is actually in the repo today.
+**Now (this repository):** the design, contribution guides, scaffolds for `blocks/` and `recipes/`, and a checked-in effects library under [`effects/`](effects/). That library is the Python package `fx`: 24 subject-aware vertical effects, plus `grid_collage` and the utilities `label`, `redact`, and `grade`. Each one is also an `e-*` effect block with `effect.yaml`, `SKILL.md`, and a synthetic preview. Run and test them as described in [`effects/README.md`](effects/README.md).
 
 **Proposed, not built yet:**
 
@@ -31,14 +31,14 @@ A folder in this repo is not, by itself, something already runnable in CFW. Do n
 
 ## Roadmap
 
-1. **Now** — design, guides, and scaffolds (this pull request).
+1. **Now** — design, guides, scaffolds, and the checked-in `effects/` library (package `fx`, with one `e-*` entry per effect).
 2. **Next** — settle the block, effect, and recipe file format, and add CI that checks declarations and a sample.
 3. **Then** — the sync endpoint and Marketplace listing from snapshots.
 4. **Then** — post tagging in Reviews, plus usage analytics that inform what to keep or retire.
 
 ## Get started
 
-- Browse the planned layout in [`effects/`](effects/), [`blocks/`](blocks/), and [`recipes/`](recipes/). Each has a `_template/` to copy.
+- Browse [`effects/`](effects/) for the checked-in looks (see the inventory in [`effects/README.md`](effects/README.md)), and [`blocks/`](blocks/) and [`recipes/`](recipes/) for scaffolds. Each area has a `_template/` to copy.
 - To contribute, read [CONTRIBUTING.md](CONTRIBUTING.md) and open a pull request with your piece, any new blocks or effects it needs, and sample outputs.
 - To understand the model, start with [docs/DESIGN.md](docs/DESIGN.md). Coding agents should read [AGENTS.md](AGENTS.md) first.
 
@@ -52,4 +52,8 @@ A folder in this repo is not, by itself, something already runnable in CFW. Do n
 
 ## License
 
-This repository is licensed under the GNU General Public License v3.0. See [LICENSE](LICENSE). Confirm that this is the intended license before contributing substantial new work.
+CFW Studio (this README, the design docs, `blocks/`, `recipes/`, `effects/_template/`, and the `e-*` catalog entries) is licensed under the GNU General Public License v3.0. See [LICENSE](LICENSE).
+
+The subject-aware effects library inside `effects/` (the `fx` package, presets, examples, smoke tests, model download script, synthetic media, and the two preview stills) is licensed under **GPL-3.0-or-later**. The license text is [effects/LICENSE](effects/LICENSE). How the two grants sit in one repository is explained in [effects/README.md](effects/README.md#license).
+
+Confirm that GPL-3.0 remains the intended license for contributed blocks and recipes before adding substantial new work outside that effects library.
